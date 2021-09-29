@@ -1,0 +1,68 @@
+<!--
+ * @Author: xxuzhong.wang
+ * @Date: 2021-09-18 17:25:56
+ * @LastEditors: xuzhong.wang
+ * @LastEditTime: 2021-09-20 12:46:09
+ * @Description: props的示例
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>props的示例</title>
+</head>
+<body> 
+    <div id="test1"></div>
+    <div id="test2"></div>
+    <script type="text/javascript" src="./react.development.js"></script>
+    <script type="text/javascript" src="./react-dom.development.js"></script>
+    <script type="text/javascript" src="./prop-types.js"></script>
+    <script type="text/javascript" src="./babel.min.js"></script>
+    <!--  创建组件 -->
+     <!-- 使用babel的写法 -->
+     <script type="text/babel">
+     //方式二:ES6的class组件(复杂组件)   
+     class ComponentTwo extends React.Component{
+        
+         constructor(props){
+             super(props)
+             this.state=({
+                 flag:false
+             })
+            // this.clickHandler = this.clickHandler.bind(this)
+         
+
+         }
+         clickHandler(){
+             console.log(this.props,"90909")
+             this.setState({
+                flag:!this.state.flag 
+             })
+         }
+         
+         render(){
+            return  <h2 onClick={this.clickHandler.bind(this)}>{this.state.flag?'我喜欢你':"你喜欢我"}-{this.props.name} -{this.props.age}-{this.props.sex}</h2> 
+            
+         }
+     }
+     const obj = {
+         //name :'John',
+         age:"16",
+         sex:'男'
+     }
+     //默认参数
+     ComponentTwo.defaultProps = {
+        name: '张三'
+    };
+    //参数类型
+    ComponentTwo.propTypes = {
+        name:PropTypes.string.isRequired,
+        age:PropTypes.string
+    };
+    ReactDOM.render(<ComponentTwo {...obj}/>,document.getElementById('test2'))
+     //ReactDOM.render(<ComponentTwo name={obj.name} age={obj.age} sex={obj.sex}/>,document.getElementById('test2'))
+    </script>
+</body>
+</html>

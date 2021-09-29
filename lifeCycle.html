@@ -1,0 +1,73 @@
+<!--
+ * @Author: xxuzhong.wang
+ * @Date: 2021-09-20 09:14:56
+ * @LastEditors: xuzhong.wang
+ * @LastEditTime: 2021-09-20 12:48:15
+ * @Description: 生命周期
+-->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>生命周期函数</title>
+</head>
+<body> 
+    <div id="test2"></div>
+    <script type="text/javascript" src="./react.development.js"></script>
+    <script type="text/javascript" src="./react-dom.development.js"></script>
+    <script type="text/javascript" src="./prop-types.js"></script>
+    <script type="text/javascript" src="./babel.min.js"></script>
+    <!--  创建组件 -->
+     <script type="text/babel">   
+     class App extends React.Component{
+         constructor(props){
+             super(props)
+             this.state=({
+            opacity:1
+             })
+         }
+         reactHandler(){
+             //将某个组件从节点上移除
+             ReactDOM.unmountComponentAtNode(document.getElementById('test2'))
+         }
+         componentDidMount(){
+             //启动循环计时器
+         const timer =     setInterval(function(){
+                 let {opacity} = this.state;
+                 opacity -=0.1
+                 if(opacity<0){
+                    opacity = 1  
+                 }
+                 this.setState({opacity})
+             }.bind(this),200)
+         }
+         componentWillUnmount(){
+             //清除定时器
+             clearInterval(this.timer)
+         }
+         componentWillUpdate(){
+             //console.log("componentWillUpdate")
+         }
+         componentDidUpdate(){
+            //console.log("componentDidUpdate")
+         }
+        render(){
+            const {opacity} = this.state
+            return(
+                <div>
+                    <div style={{opacity}}> { this.props.msg}</div>
+                    <button onClick={this.reactHandler.bind(this)}>不活了</button>
+                </div>
+                
+
+            )
+         }
+     }
+    ReactDOM.render(<App  msg="react太难了"/>,document.getElementById('test2'))
+    </script>
+</body>
+</html>

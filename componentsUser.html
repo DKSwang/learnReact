@@ -1,0 +1,116 @@
+<!--
+ * @Author: xxuzhong.wang
+ * @Date: 2021-09-19 20:26:15
+ * @LastEditors: xuzhong.wang
+ * @LastEditTime: 2021-09-27 17:43:27
+ * @Description: 组件的混合使用
+ 主要是:参数的传递-父传子和子传父,
+ 子传父的新解释:就是相当与父级定义函数,传递给子组价,子组件在执行的时候将参数传递给付组件
+ //组件的分析步骤:
+ 1.拆分组件
+ 2.实现静态组件
+ 3.实现动态组件
+   1)实现初始化数据动态显示
+   2)实现交互功能
+-->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>组件的混合使用</title>
+</head>
+<body> 
+    <div id="test2"></div>
+    <script type="text/javascript" src="./react.development.js"></script>
+    <script type="text/javascript" src="./react-dom.development.js"></script>
+    <script type="text/javascript" src="./prop-types.js"></script>
+    <script type="text/javascript" src="./babel.min.js"></script>
+    <!--  创建组件 -->
+     <script type="text/babel">   
+    //官方推荐的写法
+    class Add extends React.Component{
+         constructor(props){
+             super(props)
+             
+         }
+         showInput(){
+             //将子组件的参数传递给父组件
+             const sonParams = this.props.fatherHandler  //fatherHandler这是做为传递事件的名称
+             //判空,防止传去空传
+             if(this.input.value !=""){
+                sonParams(this.input.value.trim()); //变量
+                this.input.value=""
+             }
+            
+         }
+        render(){
+            return(
+                <div>
+                    <input type="text" ref={input =>this.input=input}/>
+                    <button onClick={this.showInput.bind(this)}>输入内容#{this.props.arrLength}</button>
+                </div>
+            )
+         }
+     }
+     Add.propTypes = {
+        arrLength:PropTypes.string.isRequired,
+        fatherHandler:PropTypes.func.isRequired  //接受父组件传递的函数
+     }
+     class List extends React.Component{
+         constructor(props){
+             super(props)
+             console.log (props,"9009")
+         }
+        render(){
+            const {arr} = this.props
+            return(
+                <div>
+                    <ul>
+                        {
+                            arr.map((item,index) => <li key={index}>{item}</li>)
+                        }
+                    </ul>
+                </div>
+            )
+         }
+        
+     }
+     List.propTypes = {
+        arr:PropTypes.array.isRequired,
+     }
+    
+     class App extends React.Component{
+         constructor(props){
+             super(props)
+             this.state=({
+               arr:["小米",'苹果',"三星"]
+             })
+         }
+
+         fatherHandler(data){
+             //跟新状态这里一定要注意,不要直接更新  不能使用这样的格式 this.state.arr.push(data)
+            const {arr} = this.state
+            arr.push(data)
+            this.setState({
+                arr
+            })
+            console.log (this.state.arr,"0000")
+         }
+        
+        render(){
+            return(
+                <div>
+                    <Add  fatherHandler={this.fatherHandler.bind(this)} arrLength={this.state.arr.length }/>
+                    <List arr={this.state.arr}/>
+                </div>
+            )
+         }
+     }
+    ReactDOM.render(<App />,document.getElementById('test2'))
+    </script>
+</body>
+</html>

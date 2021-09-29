@@ -1,0 +1,9 @@
+.title {
+    color: red
+}
+
+.selected {
+    border: 1px solid #ccc;
+    color: #FFFF;
+    background-color: seagreen;
+}

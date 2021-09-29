@@ -1,0 +1,72 @@
+<!--
+ * @Author: xxuzhong.wang
+ * @Date: 2021-09-18 16:01:06
+ * @LastEditors: xuzhong.wang
+ * @LastEditTime: 2021-09-20 12:45:37
+ * @Description: 如何创建组件
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>创建reactDom</title>
+</head>
+<body>
+    <h2>react基础</h2>
+    <div id="test3"></div>
+    <div id="test1"></div>
+    <div id="test2  "></div>
+    <div id="example"></div>
+   <div id="list"></div>
+    <script type="text/javascript" src="./react.development.js"></script>
+    <script type="text/javascript" src="./react-dom.development.js"></script>
+    <script type="text/javascript" src="./babel.min.js"></script>
+    <script type="text/babel">
+    //创建虚拟dom
+    var vDom = <h1>你好react</h1>
+    //将虚拟Dom添加到真是页面
+    ReactDOM.render(
+        vDom,document.getElementById('example')
+    )
+    </script>
+
+
+    <script type="text/javascript">
+    const msg = "I Like You !"
+    const myId  = "August"
+    //创建虚拟DOM
+    var element  = React.createElement('h1',{id:'myTitle'},"hello")
+    const vDom1 = React.createElement('h2',{id:myId.toLowerCase()},msg.toUpperCase())
+    //渲染虚拟DOm
+    ReactDOM.render (vDom1,document.getElementById('test1'))
+    ReactDOM.render (element,document.getElementById('test2'))
+    </script>
+    <!-- 使用babel的写法 -->
+    <script type="text/babel">
+    const vDom2 = <h2 id={myId.toUpperCase()}>{msg.toLowerCase()}</h2>
+    ReactDOM.render(vDom2,document.getElementById('test3'))
+    </script>
+     <!-- 作业 -->
+     <script type="text/babel">
+     const Arr =["小米","华为","oppo","苹果"]
+        const vDom2 = <h2 id={myId.toUpperCase()}>{msg.toLowerCase()}</h2>
+        ReactDOM.render(
+            // <ul>
+            //     {
+            //         Arr.map(function(element,index){
+            //           return <li key={index}>{element}</li>
+            //         })
+            //     }
+            // </ul>
+            <ul>
+                {
+                    Arr.map((item,index) =><li key={index}>{item}</li>)
+                }
+            </ul>
+
+            ,document.getElementById('test3'))
+        </script>
+</body>
+</html>

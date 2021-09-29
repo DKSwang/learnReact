@@ -1,0 +1,40 @@
+<!--
+ * @Author: xxuzhong.wang
+ * @Date: 2021-09-18 17:13:22
+ * @LastEditors: xuzhong.wang
+ * @LastEditTime: 2021-09-20 12:45:54
+ * @Description: 创建组件的俩种方式
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>创建react组件的俩中方法</title>
+</head>
+<body> 
+    <div id="test1"></div>
+    <div id="test2"></div>
+    <script type="text/javascript" src="./react.development.js"></script>
+    <script type="text/javascript" src="./react-dom.development.js"></script>
+    <script type="text/javascript" src="./babel.min.js"></script>
+    <!--  创建组件 -->
+     <!-- 使用babel的写法 -->
+     <script type="text/babel">
+     //方式一:工厂函数组件-简单组件(工厂函数必须有返回值)
+     function ComponentOne() {
+         return <h2>工厂函数组件(工厂函数必须有返回值)</h2>
+     }
+        ReactDOM.render(<ComponentOne/>,document.getElementById('test1'))
+     //方式二:ES6的class组件(复杂组件)   
+     class ComponentTwo extends React.Component{
+         render(){
+             console.log(this,"9090")
+             return <h2>ES6的class组件(复杂组件) </h2> 
+         }
+     }
+     ReactDOM.render(<ComponentTwo/>,document.getElementById('test2'))
+    </script>
+</body>
+</html>

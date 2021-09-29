@@ -1,0 +1,81 @@
+<!--
+ * @Author: xxuzhong.wang
+ * @Date: 2021-09-18 17:25:56
+ * @LastEditors: xuzhong.wang
+ * @LastEditTime: 2021-09-20 12:46:02
+ * @Description: refs操作DOM的方法
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>refs操作DOM的方法</title>
+</head>
+<body> 
+    <div id="test1"></div>
+    <div id="test2"></div>
+    <script type="text/javascript" src="./react.development.js"></script>
+    <script type="text/javascript" src="./react-dom.development.js"></script>
+    <script type="text/javascript" src="./prop-types.js"></script>
+    <script type="text/javascript" src="./babel.min.js"></script>
+    <!--  创建组件 -->
+     <script type="text/babel">   
+     //可以这样写,但是官方不推荐这样使用,而是推荐下面的写法
+    //  class ComponentTwo extends React.Component{
+    //      constructor(props){
+    //          super(props)
+    //          this.state=({
+               
+    //          })
+    //          this.fileInput = React.createRef(); //用于创建ref
+    //      }
+    //      showInput(){
+    //         const input = this.refs.content
+    //         alert(input.value)
+    //         // console.log(this.fileInput);
+    //      }
+    //     render(){
+    //         return(
+    //             <div>
+    //                 <input type="text" ref="content"/>
+    //                 <button onClick={this.showInput.bind(this)}>输入内容</button>
+    //                 <input type="text" placeholder="失去焦点提示"/>
+    //             </div>
+    //         )
+    //      }
+    //  }
+    //官方推荐的写法
+    class ComponentTwo extends React.Component{
+         constructor(props){
+             super(props)
+             this.state=({
+               
+             })
+             this.fileInput = React.createRef(); //用于创建ref
+         }
+         showInput(){
+            alert(this.input.value)
+         }
+         blurHandler(){
+             alert(this.index.value)
+         }
+         blurHandlerTwo(event){
+             alert(event.target.value)
+         }
+        render(){
+            return(
+                <div>
+                    <input type="text" ref={input =>this.input=input}/>
+                    <button onClick={this.showInput.bind(this)}>输入内容</button>
+                    <input type="text" ref={input =>this.index=input} placeholder="失去焦点提示方法一" onBlur={this.blurHandler.bind(this)}/>
+                    <input type="text"  placeholder="失去焦点提示方法二" onBlur={this.blurHandlerTwo.bind(this)}/>
+                </div>
+            )
+         }
+     }
+    ReactDOM.render(<ComponentTwo />,document.getElementById('test2'))
+    </script>
+</body>
+</html>

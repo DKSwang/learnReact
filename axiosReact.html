@@ -1,0 +1,85 @@
+<!--
+ * @Author: xxuzhong.wang
+ * @Date: 2021-09-22 20:03:22
+ * @LastEditors: xuzhong.wang
+ * @LastEditTime: 2021-09-23 18:51:40
+ * @Description: react使用axios和fetch请求数据
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>react使用axios</title>
+</head>
+<body>
+    <div id="test2"></div>
+    <script type="text/javascript" src="./react.development.js"></script>
+    <script type="text/javascript" src="./react-dom.development.js"></script>
+    <script type="text/javascript" src="./prop-types.js"></script>
+    <script type="text/javascript" src="./babel.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/axios/0.21.1/axios.min.js"></script>
+    <script type="text/babel">
+    //测试接口:https://api.github.com/search/repositories?q=r&sort=star
+ class App extends React.Component{
+    //  constructor(){
+    //      super (),
+    //      this.state=({})
+    //  }
+    state={
+        repoName :'',
+        repoUrl:''
+    }
+    componentDidMount(){
+        //使用axios发送异步的请求
+        const url = "https://api.github.com/search/repositories?q=react&sort=star"
+        // axios.get(url)
+        // .then(res =>{
+        //     console.log(res.data,"res")
+        //     const repoData= res.data.items[0]
+        //     //拿到数据
+        //     const {name,html_url} = repoData
+        //     //更显状态
+        //     this.setState({
+        //         repoName:name,
+        //         repoUrl:html_url
+        //     })
+        // })
+        // .catch(e => console.log( e,"错误信息"))
+        //使用fetch请求数据
+        fetch(url) .then(response => response.json())
+        .then(data => {
+            console.log(data)
+            //拿到数据
+            const repoData= data.items[0]
+            const {name,html_url} = repoData
+            this.setState({
+                repoName:name,
+                repoUrl:html_url
+            })
+        })
+        .catch(e => console.log("Oops, error", e))
+
+    }
+     render (){
+         const  {repoName,repoUrl} =this.state
+         if (!repoName){
+             return <h2>Loading......</h2>
+         }else {
+             return <h2>
+                most star repo is &nbsp;
+                <a href={repoUrl}>{repoName}</a>
+                </h2>
+         }
+        // return(
+        //         <div>
+                  
+        //         </div>
+        //     )
+     }
+ }
+ ReactDOM.render(<App />,document.getElementById('test2'))
+    </script>
+</body>
+</html>
